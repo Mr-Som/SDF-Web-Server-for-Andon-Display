@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- AWP_In_Variable Name='"WEB_TO_PLC".ONLY_DATE' -->
+<!-- AWP_In_Variable Name='"WEB_TO_PLC".ONLY_TIME' -->
+<html>
+	<head>
+		<!-- AWP_In_Variable Name='"WEB_TO_PLC".ONLY_DATE' -->
+		<!-- AWP_In_Variable Name='"WEB_TO_PLC".ONLY_TIME' -->
+		<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+		<title>Web page demo - Automatic update - Update page</title>
+		<script type="text/javascript">
+		 
+		 /* String.trim() is not supported by every browser - thus add this functionality is necessary */
+		 if (!String.trim)
+		 {
+			String.prototype.trim = function () { return this.replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, ''); };
+		 }
+		 
+		 /* Main function for calling the subroutines */
+		 function mainJavaScript()
+		 {
+			updateSingleVariablesTable();
+			updateFrame();
+		 }
+			
+		 /* Function for updating the variables */
+		 function updateSingleVariablesTable()
+		 {
+			var table = document.getElementById("singleVariablesTable");
+			for(i = 1; i < table.rows.length; i++)
+			{
+				var tagValue = table.rows[i].getElementsByTagName("td")[0].innerHTML;
+				var tagId = table.rows[i].getElementsByTagName("td")[1].innerHTML.trim();
+				parent.document.getElementById(tagId).innerHTML = tagValue;
+			}
+		 }
+		 
+		 /* Function for updating the web page */
+		 function updateFrame()
+		 {
+			window.setTimeout(function(){location.reload()}, document.getElementById("updateInterval").innerHTML.trim());
+		 }
+		</script>
+
+	</head>
+	<body onload="mainJavaScript()">
+
+		<table border="1">
+			<tr>
+				<td>
+					Update time in milliseconds
+				</td>
+			</tr>
+			<tr>
+				<td id="updateInterval">
+					1000
+				</td>
+			</tr>
+		</table>
+		<br/>
+
+		<table id="singleVariablesTable" border="1">
+			<tr>
+				<td>
+					AWP-Command to read variable
+				</td>
+				<td>
+					ID of the element of the main page which should be updated
+				</td>
+			</tr>
+			<tr>
+				<td>
+					:="A_SHIFT_TERGET":
+				</td>
+				<td>
+					A_SHIFT_TERGET
+				</td>
+			</tr>
+			<tr>
+				<td>
+					:="A_SHIFT_ACTUAL":
+				</td>
+				<td>
+					A_SHIFT_ACTUAL
+				</td>
+			</tr>
+			<tr>
+				<td>
+					:="B_SHIFT_TERGET":
+				</td>
+				<td>
+					B_SHIFT_TERGET
+				</td>
+			</tr>
+			<tr>
+				<td>
+					:="B_SHIFT_ACTUAL":
+				</td>
+				<td>
+					B_SHIFT_ACTUAL
+				</td>
+			</tr>
+			<tr>
+				<td>
+					:="C_SHIFT_TERGET":
+				</td>
+				<td>
+					C_SHIFT_TERGET
+				</td>
+			</tr>
+			<tr>
+				<td>
+					:="C_SHIFT_ACTUAL":
+				</td>
+				<td>
+					C_SHIFT_ACTUAL
+				</td>
+			</tr>
+			<tr>
+				<td>
+					:="MONTHLY_TERGET_SP":
+				</td>
+				<td>
+					MONTHLY_TERGET_SP
+				</td>
+			</tr>
+			<tr>
+				<td>
+					:="MONTH_PRODUCED_TILL_NOW":
+				</td>
+				<td>
+					MONTH_PRODUCED_TILL_NOW
+				</td>
+			</tr>
+			<tr>
+				<td>
+					:="PERDAY_TERGET":
+				</td>
+				<td>
+					PERDAY_TERGET
+				</td>
+			</tr>
+			<tr>
+				<td>
+					:="ACTUAL_TILL_NOW":
+				</td>
+				<td>
+					ACTUAL_TILL_NOW
+				</td>
+			</tr>
+			<tr>
+				<td>
+					:="REMANING_DAYS":
+				</td>
+				<td>
+					REMANING_DAYS
+				</td>
+			</tr>
+			<tr>
+				<td>
+					:="BALANCE_TO PRODUCE":
+				</td>
+				<td>
+					BALANCE_TO_PRODUCE
+				</td>
+			</tr>
+			<tr>
+				<td>
+					:="PERDAY_TERGET":
+				</td>
+				<td>
+					PERDAY_TERGET_2
+				</td>
+			</tr>
+			<tr>
+				<td>
+					:="WEB_TO_PLC".ONLY_DATE:
+				</td>
+				<td>
+					DATE
+				</td>
+			</tr>
+			<tr>
+				<td>
+					:="WEB_TO_PLC".ONLY_TIME:
+				</td>
+				<td>
+					TIME
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>
