@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>BREAK TIME</title>
+    <style>
+      body,
+      html {
+        margin: 0;
+        height: 100%;
+        background: #000;
+        color: #fff;
+        font-family: Arial;
+        overflow: hidden;
+      }
+      #overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.95);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+      }
+      h1 {
+        font-size: 12vw;
+        color: #fa8d18;
+        text-shadow: 0 0 30px #fa8d18;
+      }
+      #timer {
+        font-size: 18vw;
+        font-weight: bold;
+        color: #fff;
+        text-shadow: 0 0 40px #fff;
+      }
+      #msg {
+        font-size: 6vw;
+        margin-top: 30px;
+      }
+      .pulse {
+        animation: pulse 1.5s infinite;
+      }
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="overlay">
+      <h1 class="pulse" id="title">TEA BREAK</h1>
+      <div id="timer">--:--</div>
+      <div id="msg">Please return to work on time</div>
+    </div>
+
+    <audio id="siren" loop>
+      <source src="siren.mp3" type="audio/mp3" />
+    </audio>
+
+    <script>
+      const overlay = document.getElementById("overlay");
+      const title = document.getElementById("title");
+      const timer = document.getElementById("timer");
+      const msg = document.getElementById("msg");
+      const siren = document.getElementById("siren");
+
+      function updateBreak(data) {
+        if (data.Break_Active) {
+          overlay.style.display = "flex";
+          if (data.Break_Type === 2) {
+            title.textContent = "LUNCH BREAK";
+            msg.textContent = data.Break_Message || "Enjoy your lunch!";
+          } else {
+            title.textContent = "TEA BREAK";
+            msg.textContent = "Short break - 10 minutes";
+          }
+
+          const mins = data.Break_Minutes_Left;
+          timer.textContent = (mins < 10 ? "0" : "") + mins + ":00";
+
+          if (mins > 0) siren.play();
+          else siren.pause();
+        } else {
+          overlay.style.display = "none";
+          siren.pause();
+        }
+      }
+
+      setInterval(() => {
+        fetch("data.json?t=" + Date.now())
+          .then((r) => r.json())
+          .then(updateBreak);
+      }, 1000);
+    </script>
+  </body>
+</html>
